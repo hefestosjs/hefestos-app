@@ -1,5 +1,6 @@
 import { AppError } from "core";
 import { User } from "app/database";
+import { CreateUserInterface } from "../interfaces/UsersInterface";
 
 export default class UserService {
   static async index() {
@@ -14,7 +15,7 @@ export default class UserService {
     return user;
   }
 
-  static async store(data: any) {
+  static async store(data: CreateUserInterface) {
     const user = await User.create({ data: data });
 
     if (!user) throw AppError.E_GENERIC_ERROR("Error when create a user");
