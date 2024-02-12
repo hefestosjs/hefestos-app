@@ -9,7 +9,16 @@ export default class UsersController {
     return response.render("users/list", { title: "User List", users });
   }
 
-  // static async show(request: Request, response: Response) {}
+  static async show(request: Request, response: Response) {
+    try {
+      const { id } = request.params;
+      const user = await UserService.show(id);
+
+      return response.render("users/show", { user });
+    } catch (error: any) {
+      return ApiResponse.error(response, error);
+    }
+  }
 
   static async create(request: Request, response: Response) {
     return response.render("users/create", { title: "Create User" });
