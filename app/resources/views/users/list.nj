@@ -23,7 +23,7 @@
             <td>{{user.name}}</td>
             <td>{{user.email}}</td>
             <td class="flex space-x-4 justify-center items-center">
-              <a href="users/edit/{{user.id}}" class="hover:underline hover:underline-offset-4">Editar</a>
+              <a href="edit/{{user.id}}" class="hover:underline hover:underline-offset-4">Editar</a>
 
               <form action="{{user.id}}" method="post" class="m-0 p-0">
                 <input type="hidden" name="_method" value="delete"/>
