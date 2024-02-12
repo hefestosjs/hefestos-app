@@ -18,7 +18,7 @@ export function Router(): RouterInterface {
     }
 
     if (controller.show) {
-      router.get(`${routePath}/:id`, controller.show);
+      router.get(`${routePath}/details/:id`, controller.show);
     }
 
     if (controller.create) {
