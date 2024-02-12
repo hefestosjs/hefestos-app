@@ -1,0 +1,13 @@
+import express, { Express } from "express";
+import { join } from "path";
+import { isProd } from "../global";
+
+export default function Assets(APP: Express, ROOT_PATH: string) {
+  APP.use(express.static(join(ROOT_PATH, "public")));
+  APP.use("/css", express.static(join(ROOT_PATH, isProd, "public/css")));
+  APP.use("/js", express.static(join(ROOT_PATH, isProd, "app/resources/js")));
+
+  if (process.env.DRIVE === "local") {
+    APP.use("/files", express.static(join(ROOT_PATH, "uploads")));
+  }
+}

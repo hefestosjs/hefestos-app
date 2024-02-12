@@ -1,0 +1,12 @@
+# Folders
+node_modules
+coverage
+dist
+
+# Files
+.env
+.nvmrc
+*.log
+yarn.lock
+package-lock.json
+
