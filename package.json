@@ -11,9 +11,9 @@
   ],
   "main": "dist/start/server.js",
   "scripts": {
-    "copy-files": "cp -r ./app/resources/* ./dist/app/resources",
     "delete-dist": "rm -rf ./dist",
     "transpile": "tsc && tsc-alias",
+    "copy-files": "mkdir -p ./dist/app/resources && cp -r ./app/resources/* ./dist/app/resources",
     "build": "npm-run-all delete-dist transpile copy-files",
     "start": "node dist/start/server.js",
     "dev": "clear && npm-run-all --parallel monitor:server monitor:tailwind",
