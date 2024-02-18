@@ -16,6 +16,12 @@
       class="input input-bordered w-full max-w-xs"
 />
     <input
+      type="text"
+      name="phone"
+      placeholder="Type phone..."
+      class="input input-bordered w-full max-w-xs"
+/>
+    <input
       type="email"
       name="email"
       placeholder="Type email..."

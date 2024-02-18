@@ -1,12 +1,25 @@
-import { AppError } from "core";
+import { AppError, ResponseUtils } from "core";
 import { User } from "app/database";
 import { CreateUserInterface } from "../interfaces/UsersInterface";
 
 export default class UserService {
-  static async index() {
-    const users = await User.findMany();
+  static async index(currentPage: number = 1) {
+    const perPage = 10;
+    const page = currentPage ? currentPage : 1;
+    const skip = (page - 1) * perPage;
 
-    return users;
+    const totalUsers = await User.count();
+    const userList = await User.findMany({ take: perPage, skip });
+    const users = new ResponseUtils().excludeFromList(userList, ["password"]);
+
+    const response = new ResponseUtils().paginate({
+      data: users,
+      totalData: totalUsers,
+      page,
+      perPage,
+    });
+
+    return response;
   }
 
   static async show(id: string) {
