@@ -10,9 +10,9 @@ export default class UserService {
 
     const totalUsers = await User.count();
     const userList = await User.findMany({ take: perPage, skip });
-    const users = new ResponseUtils().excludeFromList(userList, ["password"]);
+    const users = ResponseUtils.excludeFromList(userList, ["password"]);
 
-    const response = new ResponseUtils().paginate({
+    const response = ResponseUtils.paginate({
       data: users,
       totalData: totalUsers,
       page,
