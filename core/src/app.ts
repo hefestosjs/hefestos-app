@@ -22,9 +22,9 @@ const contentSecurity = helmet.contentSecurityPolicy(
 /**
  * Modules
  */
-Views(APP, process.cwd());
-Logger(APP, process.cwd());
-Assets(APP, process.cwd());
+Views(APP);
+Logger(APP);
+Assets(APP);
 
 /**
  * Express

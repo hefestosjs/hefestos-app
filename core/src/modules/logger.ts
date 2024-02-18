@@ -5,25 +5,31 @@ import * as rfs from "rotating-file-stream";
 import fs from "fs";
 import { isProd } from "../global";
 
-export default function Logger(APP: Express, ROOT_PATH: string) {
-  if (process.env.LOG_ACTIVE === "true") {
+export default function Logger(APP: Express) {
+  const logsConfigPath = join(process.cwd(), isProd, "app/config/logs");
+  const logsConfig = require(logsConfigPath).default;
+
+  if (logsConfig.active === true) {
     const datetime = new Date();
     const logName = datetime.toISOString().slice(0, 10);
-    const logPath = join(ROOT_PATH, isProd, `app/logs/${logName}.log`);
 
     if (process.env.NODE_ENV === "production") {
-      const rotateLogStream = rfs.createStream(`${logPath}`, {
-        size: "5M", // rotate every 10 MegaBytes written
-        interval: "1d", // rotate daily
-        compress: "gzip", // compress rotated files
+      const logPath = join(`dist/app/logs/${logName}`);
+      const rotateLogStream = rfs.createStream(`${logName}.log`, {
+        size: logsConfig.env.production.size,
+        interval: logsConfig.env.production.interval,
+        compress: logsConfig.env.production.compress,
         path: logPath,
       });
 
-      APP.use(morgan("combined", { stream: rotateLogStream }));
+      APP.use(
+        morgan(logsConfig.env.production.format, { stream: rotateLogStream })
+      );
     } else {
+      const logPath = join(`app/logs/${logName}.log`);
       const logStream = fs.createWriteStream(logPath, { flags: "a" });
 
-      APP.use(morgan("combined", { stream: logStream }));
+      APP.use(morgan(logsConfig.env.development.format, { stream: logStream }));
     }
   }
 }
