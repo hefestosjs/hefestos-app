@@ -12,8 +12,12 @@ import { isProd } from "./global";
 
 export const APP = express();
 export const APP_PORT = Number(process.env.PORT) || 3000;
+export const security = join(process.cwd(), isProd, "app/config/security");
 
 const routesPath = join(process.cwd(), isProd, "app/routes");
+const contentSecurity = helmet.contentSecurityPolicy(
+  require(security).SecurityPolicy
+);
 
 /**
  * Modules
@@ -26,6 +30,7 @@ Assets(APP, process.cwd());
  * Express
  */
 APP.use(helmet());
+APP.use(contentSecurity);
 APP.use(express.json());
 APP.use(cookieParser(process.env.COOKIE_SECRET));
 APP.use(express.urlencoded({ extended: true }));
