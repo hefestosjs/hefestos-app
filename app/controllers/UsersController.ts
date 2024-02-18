@@ -1,6 +1,6 @@
 import { ApiResponse, Request, Response } from "core";
 import UserService from "app/services/UserService";
-import UsersValidator from "app/validations/User";
+import UsersValidator from "app/validations/Users";
 
 export default class UsersController {
   static async index(request: Request, response: Response) {
