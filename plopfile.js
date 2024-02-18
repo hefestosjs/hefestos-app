@@ -40,6 +40,43 @@ module.exports = (plop) => {
     ],
   });
 
+  plop.setGenerator("validation", {
+    description: "Application route validation logic",
+    prompts: [
+      {
+        type: "input",
+        name: "name",
+        message: "Validation name (recommended to use plural)",
+      },
+    ],
+    actions: [
+      {
+        type: "add",
+        path: join(
+          process.cwd(),
+          "app/validations/{{pascalCase name}}/index.ts"
+        ),
+        templateFile: "core/src/commands/templates/validation_index.hbs",
+      },
+      {
+        type: "add",
+        path: join(
+          process.cwd(),
+          "app/validations/{{pascalCase name}}/Create.ts"
+        ),
+        templateFile: "core/src/commands/templates/validation_create.hbs",
+      },
+      {
+        type: "add",
+        path: join(
+          process.cwd(),
+          "app/validations/{{pascalCase name}}/Update.ts"
+        ),
+        templateFile: "core/src/commands/templates/validation_update.hbs",
+      },
+    ],
+  });
+
   plop.setGenerator("task", {
     description: "Application task logic",
     prompts: [
