@@ -8,6 +8,7 @@ import {
   RequestInterface,
   ResponseInterface,
 } from "./src/interfaces/router";
+import ResponseUtils from "./src/utils/ResponseUtils";
 
 export {
   RequestInterface as Request,
@@ -21,6 +22,7 @@ export {
   registerMiddleware,
   AppError,
   ApiResponse,
+  ResponseUtils,
   createSchedule,
   ScheduledTask,
 };
