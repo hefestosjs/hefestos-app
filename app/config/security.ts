@@ -1,4 +1,5 @@
 export const SecurityPolicy = {
+  ssl: false,
   useDefaults: true,
   directives: {
     // "img-src": ["'self'", "https: data:"],

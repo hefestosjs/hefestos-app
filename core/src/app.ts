@@ -9,6 +9,7 @@ import Assets from "./modules/assets";
 import MethodOverride from "./modules/methodOverride";
 import { join } from "path";
 import { isProd } from "./global";
+import Authentication from "./modules/auth";
 
 export const APP = express();
 export const APP_PORT = Number(process.env.PORT) || 3000;
@@ -25,6 +26,7 @@ const contentSecurity = helmet.contentSecurityPolicy(
 Views(APP);
 Logger(APP);
 Assets(APP);
+Authentication(APP, security);
 
 /**
  * Express
