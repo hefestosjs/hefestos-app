@@ -1,4 +1,5 @@
 import "dotenv/config";
+import { join } from "path";
 import express from "express";
 import methodOverride from "method-override";
 import helmet from "helmet";
@@ -6,13 +7,15 @@ import cookieParser from "cookie-parser";
 import Views from "./modules/views";
 import Logger from "./modules/logger";
 import Assets from "./modules/assets";
-import MethodOverride from "./modules/methodOverride";
-import { join } from "path";
-import { isProd } from "./global";
 import Authentication from "./modules/auth";
+import MethodOverride from "./modules/methodOverride";
+import Compression from "./modules/compression";
+import { isProd } from "./global";
+import Cache from "./modules/cache";
 
 export const APP = express();
 export const APP_PORT = Number(process.env.PORT) || 3000;
+export const registerMiddleware = APP.use;
 export const security = join(process.cwd(), isProd, "app/config/security");
 
 const routesPath = join(process.cwd(), isProd, "app/routes");
@@ -23,9 +26,11 @@ const contentSecurity = helmet.contentSecurityPolicy(
 /**
  * Modules
  */
-Views(APP);
 Logger(APP);
+Views(APP);
 Assets(APP);
+Compression(APP);
+Cache();
 Authentication(APP, security);
 
 /**

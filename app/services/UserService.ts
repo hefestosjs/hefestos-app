@@ -1,4 +1,4 @@
-import { AppError, ResponseUtils } from "core";
+import { AppError, ResponseUtils, useCache } from "core";
 import { User } from "app/database";
 import { CreateUserInterface } from "../interfaces/UsersInterface";
 
@@ -8,9 +8,20 @@ export default class UserService {
     const page = currentPage ? currentPage : 1;
     const skip = (page - 1) * perPage;
 
+    // Cache
+    const key = `users.list.params=${skip}_${perPage}`;
+    const cached = await useCache.get(key);
+
+    if (cached) {
+      console.log(JSON.parse(cached));
+
+      return JSON.parse(cached);
+    }
+
+    // Queries
     const totalUsers = await User.count();
-    const userList = await User.findMany({ take: perPage, skip });
-    const users = ResponseUtils.excludeFromList(userList, ["password"]);
+    const query = await User.findMany({ take: perPage, skip });
+    const users = ResponseUtils.excludeFromList(query, ["password"]);
 
     const response = ResponseUtils.paginate({
       data: users,
@@ -18,6 +29,8 @@ export default class UserService {
       page,
       perPage,
     });
+
+    await useCache.set(key, JSON.stringify(response));
 
     return response;
   }

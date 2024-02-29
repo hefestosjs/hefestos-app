@@ -1,8 +1,9 @@
-import { APP } from "./src/app";
-import { registerMiddleware, useServer } from "./src/server";
+import { APP, registerMiddleware } from "./src/app";
+import { useServer } from "./src/server";
 import AppError from "./src/errors/AppError";
 import ApiResponse from "./src/utils/ApiResponse";
 import { createSchedule, ScheduledTask } from "./src/modules/tasks";
+import { useCache } from "./src/modules/cache";
 import {
   NextInterface,
   RequestInterface,
@@ -25,4 +26,5 @@ export {
   ResponseUtils,
   createSchedule,
   ScheduledTask,
+  useCache,
 };
