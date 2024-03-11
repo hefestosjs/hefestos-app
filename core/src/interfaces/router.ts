@@ -20,5 +20,9 @@ export interface Controller {
 }
 
 export interface RouterInterface extends ExpressRouter {
-  resources(path: string, controllerName: string): RouterInterface;
+  resources(
+    path: string,
+    controllerName: string,
+    middlewares?: any[]
+  ): RouterInterface;
 }
