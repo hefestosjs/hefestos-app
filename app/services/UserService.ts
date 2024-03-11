@@ -13,8 +13,6 @@ export default class UserService {
     const cached = await useCache.get(key);
 
     if (cached) {
-      console.log(JSON.parse(cached));
-
       return JSON.parse(cached);
     }
 

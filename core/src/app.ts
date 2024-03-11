@@ -31,7 +31,7 @@ Views(APP);
 Assets(APP);
 Compression(APP);
 Cache();
-Authentication(APP, security);
+Authentication(APP);
 
 /**
  * Express

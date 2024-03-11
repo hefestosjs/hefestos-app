@@ -1,19 +1,29 @@
 import AuthConfig from "app/config/auth";
 import { Session, SessionType } from "./session";
+import { Token, TokenType } from "./token";
 
 type LoginType = {
-  session: SessionType;
+  session?: SessionType;
+  token?: TokenType;
 };
 
-const login = (props: LoginType) => {
+const login = async (props: LoginType) => {
   if (AuthConfig.strategy === "web") {
-    Session(props.session, "login");
+    return Session(props.session!, "login");
+  }
+
+  if (AuthConfig.strategy === "token") {
+    return await Token(props.token!, "login");
   }
 };
 
-const logout = (props: LoginType) => {
+const logout = async (props: LoginType) => {
   if (AuthConfig.strategy === "web") {
-    Session(props.session, "logout");
+    return Session(props.session!, "logout");
+  }
+
+  if (AuthConfig.strategy === "token") {
+    return await Token(props.token!, "logout");
   }
 };
 

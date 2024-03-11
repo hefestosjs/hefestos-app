@@ -10,6 +10,7 @@ import {
   ResponseInterface,
 } from "./src/interfaces/router";
 import ResponseUtils from "./src/utils/ResponseUtils";
+import { redisClient } from "./src/modules/redis";
 
 export {
   RequestInterface as Request,
@@ -27,4 +28,5 @@ export {
   createSchedule,
   ScheduledTask,
   useCache,
+  redisClient,
 };
