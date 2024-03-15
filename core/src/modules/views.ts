@@ -18,3 +18,10 @@ export default function Views(APP: Express) {
     express: APP,
   });
 }
+
+export const renderHtml = (name: string, context?: object | undefined) => {
+  const ROOT_PATH = process.cwd();
+  const path = join(ROOT_PATH, isProd, `app/resources/${name}`);
+
+  return nunjucks.render(path, context);
+};

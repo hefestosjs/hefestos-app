@@ -4,6 +4,7 @@ import AppError from "./src/errors/AppError";
 import ApiResponse from "./src/utils/ApiResponse";
 import { createSchedule, ScheduledTask } from "./src/modules/tasks";
 import { useCache } from "./src/modules/cache";
+import { renderHtml } from "./src/modules/views";
 import {
   NextInterface,
   RequestInterface,
@@ -29,4 +30,5 @@ export {
   ScheduledTask,
   useCache,
   redisClient,
+  renderHtml,
 };
