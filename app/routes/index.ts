@@ -12,7 +12,7 @@ useRouter.get("/404", (req, res) => res.render("404"));
 /**
  * Resources
  * Used when you want to make a default CRUD
+ * Example: useRouter.resources("path", "Controller", [middleware]);
  */
-useRouter.resources("users", "UsersController");
 
 export default useRouter;
