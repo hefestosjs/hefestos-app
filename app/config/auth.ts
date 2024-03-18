@@ -10,7 +10,7 @@ interface AuthConfig {
 }
 
 const auth: AuthConfig = {
-  strategy: "token",
+  strategy: "web",
   table: "users",
   uniqueColumn: "email",
   tokenStrategy: {

@@ -1,5 +1,5 @@
 const LogsConfig = {
-  active: true,
+  active: false,
   env: {
     production: {
       size: "5M",
