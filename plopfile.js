@@ -17,7 +17,7 @@ module.exports = (plop) => {
           process.cwd(),
           "app/controllers/{{pascalCase name}}Controller.ts"
         ),
-        templateFile: "core/src/commands/templates/controller.hbs",
+        templateFile: "core/src/commands/templates/controller.nj",
       },
     ],
   });
@@ -35,7 +35,7 @@ module.exports = (plop) => {
       {
         type: "add",
         path: join(process.cwd(), "app/services/{{pascalCase name}}Service.ts"),
-        templateFile: "core/src/commands/templates/service.hbs",
+        templateFile: "core/src/commands/templates/service.nj",
       },
     ],
   });
@@ -56,7 +56,7 @@ module.exports = (plop) => {
           process.cwd(),
           "app/validations/{{pascalCase name}}/index.ts"
         ),
-        templateFile: "core/src/commands/templates/validation_index.hbs",
+        templateFile: "core/src/commands/templates/validation_index.nj",
       },
       {
         type: "add",
@@ -64,7 +64,7 @@ module.exports = (plop) => {
           process.cwd(),
           "app/validations/{{pascalCase name}}/Create.ts"
         ),
-        templateFile: "core/src/commands/templates/validation_create.hbs",
+        templateFile: "core/src/commands/templates/validation_create.nj",
       },
       {
         type: "add",
@@ -72,7 +72,7 @@ module.exports = (plop) => {
           process.cwd(),
           "app/validations/{{pascalCase name}}/Update.ts"
         ),
-        templateFile: "core/src/commands/templates/validation_update.hbs",
+        templateFile: "core/src/commands/templates/validation_update.nj",
       },
     ],
   });
@@ -90,7 +90,7 @@ module.exports = (plop) => {
       {
         type: "add",
         path: join(process.cwd(), "app/tasks/{{pascalCase name}}.ts"),
-        templateFile: "core/src/commands/templates/task.hbs",
+        templateFile: "core/src/commands/templates/task.nj",
       },
     ],
   });
@@ -113,7 +113,7 @@ module.exports = (plop) => {
       {
         type: "add",
         path: join(process.cwd(), "app/tests/{{ path }}/{{ name }}.spec.ts"),
-        templateFile: "core/src/commands/templates/test.hbs",
+        templateFile: "core/src/commands/templates/test.nj",
       },
     ],
   });
@@ -134,7 +134,7 @@ module.exports = (plop) => {
           process.cwd(),
           "app/resources/layouts/{{camelCase name}}.nj"
         ),
-        templateFile: "core/src/commands/templates/layout.hbs",
+        templateFile: "core/src/commands/templates/layout.nj",
       },
     ],
   });
@@ -160,7 +160,7 @@ module.exports = (plop) => {
           process.cwd(),
           "app/resources/views/{{ path }}/{{camelCase name}}.nj"
         ),
-        templateFile: "core/src/commands/templates/view.hbs",
+        templateFile: "core/src/commands/templates/view.nj",
       },
     ],
   });
