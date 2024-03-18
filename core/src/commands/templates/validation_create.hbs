@@ -1,19 +1,17 @@
 import * as z from "zod";
 
-async function CreateValidation(data: any) {
-  try {
-    const schema = z
-      .object({
-        name: z.string().min(1).max(255),
-      })
-      .required({ name: true });
+const Schema = z.object({
+  name: z.string().min(1).max(255),
+});
 
-    return schema.parse(data);
+export type SchemaType = z.infer<typeof Schema>;
+
+export function CreateValidation(data: SchemaType) {
+  try {
+    Schema.parse(data);
   } catch (error) {
     if (error instanceof z.ZodError) {
       throw error;
     }
   }
 }
-
-export default CreateValidation;
