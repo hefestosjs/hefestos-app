@@ -7,7 +7,7 @@
       <h1 class="text-9xl font-bold text-gray-800">HefestoJS</h1>
 
       <div class="mt-6">
-        <a href="/" class="text-blue-500 hover:underline">Documentation</a>
+        <a href="https://hefestosjs.github.io/docs/" class="text-blue-500 hover:underline">Documentation</a>
       </div>
     </div>
   </section>
