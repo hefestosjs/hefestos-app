@@ -4,9 +4,9 @@ import jwt from "jsonwebtoken";
 
 function isAuthenticated(request: Request, response: Response, next: Next) {
   if (AuthConfig.strategy === "web") {
-    if (!request.session.user) next("route");
+    if (!request.session.user) return next("route");
 
-    next();
+    return next();
   }
 
   if (AuthConfig.strategy === "token") {
