@@ -16,9 +16,9 @@
     "copy-files": "mkdir -p ./dist/app/resources && cp -r ./app/resources/* ./dist/app/resources",
     "build": "npm-run-all delete-dist transpile copy-files",
     "start": "node dist/start/server.js",
-    "dev": "clear && npm-run-all --parallel monitor:server monitor:tailwind",
+    "dev": "clear && npm-run-all --parallel ms monitor:tailwind",
     "dev:s": "clear && npm-run-all --parallel dev studio",
-    "monitor:server": "nodemon --exec tsx start/server.ts",
+    "ms": "nodemon --exec tsx start/server.ts",
     "monitor:tailwind": "npx tailwindcss -i public/css/tailwind.css -o public/css/styles.css --watch",
     "test": "jest",
     "test:watch": "jest --watchAll",
@@ -32,6 +32,7 @@
     "seed": "ts-node app/database/seeds"
   },
   "devDependencies": {
+    "@faker-js/faker": "^8.4.1",
     "@jest/globals": "^29.7.0",
     "@types/aws-sdk": "^2.7.0",
     "@types/compression": "^1.7.5",
