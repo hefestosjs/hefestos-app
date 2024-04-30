@@ -1,3 +1,4 @@
-import { upload } from "./src/modules/upload";
+import { Factory } from "./src/modules/factory";
+import { File } from "./src/modules/file";
 
-export { upload };
+export { Factory, File };
