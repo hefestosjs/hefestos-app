@@ -164,4 +164,31 @@ module.exports = (plop) => {
       },
     ],
   });
+
+  plop.setGenerator("factory", {
+    description: "Application factory logic",
+    prompts: [
+      {
+        type: "input",
+        name: "name",
+        message: "Model name",
+      },
+    ],
+    actions: [
+      {
+        type: "add",
+        path: join(
+          process.cwd(),
+          "app/database/factories/{{pascalCase name}}Factory.ts"
+        ),
+        templateFile: "core/src/commands/templates/factory.nj",
+      },
+    ],
+  });
+
+  plop.setGenerator("------------ End ------------", {
+    description: "",
+    prompts: [],
+    actions: [],
+  });
 };
