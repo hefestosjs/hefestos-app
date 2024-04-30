@@ -9,6 +9,10 @@ export const File = {
     return fs.renameSync(oldPath, newPath);
   },
 
+  move: (from: string, to: string) => {
+    return fs.renameSync(from, to);
+  },
+
   remove: (filePath: string) => {
     return fs.rmSync(filePath);
   },
