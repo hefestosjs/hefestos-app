@@ -1,5 +1,4 @@
 export const uploadConfig = {
-  drive: process.env.DRIVE_DISK,
   aws: {
     credentials: {
       accessKeyId: process.env.S3_KEY,
