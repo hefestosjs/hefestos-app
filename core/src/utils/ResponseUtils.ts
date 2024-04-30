@@ -5,7 +5,7 @@ export default {
     const response = {
       data,
       meta: {
-        currentPage: page,
+        currentPage: Number(page),
         lastPage: Math.ceil(totalData / perPage),
         perPage: perPage,
         totalPages: Math.ceil(totalData / perPage),
