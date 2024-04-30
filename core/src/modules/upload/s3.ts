@@ -1,17 +1,10 @@
 import fs from "fs";
 import { join } from "path";
-import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
 import { ParamsType } from ".";
-import { isProd } from "../../global";
 import { File } from "../file";
+import { S3 } from "../s3";
 
 export async function uploadToS3(params: ParamsType): Promise<void> {
-  const uploadConfigPath = join(process.cwd(), isProd, "app/config/upload");
-  const { uploadConfig } = require(uploadConfigPath);
-
-  const { credentials, bucket, region } = uploadConfig.aws;
-  const s3Client = new S3Client({ region, credentials });
-
   const filePath = join(
     process.cwd(),
     "uploads",
@@ -23,15 +16,13 @@ export async function uploadToS3(params: ParamsType): Promise<void> {
   const body = await File.createBuffer(filePath);
 
   const config = {
-    Bucket: bucket,
-    Key: key,
-    Body: body,
-    ContentType: params.file.mimetype,
+    key,
+    body,
+    contentType: params.file.mimetype,
   };
 
   try {
-    const command = new PutObjectCommand(config);
-    await s3Client.send(command);
+    await S3.put(config);
 
     fs.unlinkSync(filePath);
   } catch (error) {
