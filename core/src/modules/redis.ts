@@ -1,9 +1,13 @@
 import { createClient } from "redis";
+import { join } from "path";
+import { isProd } from "../global";
 
-const NODE_ENV = process.env.NODE_ENV;
 export const redisClient = createClient();
 
-if (!redisClient.isOpen) {
+const performanceConfig = join(process.cwd(), isProd, "app/config/performance");
+const performance = require(performanceConfig).PerformanceConfig;
+
+if (performance.redis && !redisClient.isOpen) {
   redisClient.connect().then(
     () => {
       console.log("Connected to Redis");
