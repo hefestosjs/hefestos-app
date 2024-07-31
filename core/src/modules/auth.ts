@@ -1,7 +1,6 @@
 import { Express } from "express";
 import session from "express-session";
 import RedisStore from "connect-redis";
-import jwt from "jsonwebtoken";
 import { v4 as randomUUI } from "uuid";
 import { redisClient } from "./redis";
 import { join } from "path";
@@ -12,6 +11,13 @@ declare module "express-session" {
     user: { [key: string]: any } | null;
   }
 }
+
+const performanceConfigPath = join(
+  process.cwd(),
+  isProd,
+  "app/config/performance"
+);
+const performance = require(performanceConfigPath).default;
 
 const authConfigPath = join(process.cwd(), isProd, "app/config/auth");
 const auth = require(authConfigPath).default;
@@ -26,23 +32,26 @@ export default function Authentication(APP: Express) {
 }
 
 function useSession(APP: Express, ssl: boolean) {
-  const redisStore = new RedisStore({
-    client: redisClient,
-    prefix: "myapp:",
-  });
+  const sessionObject = {
+    genid: () => randomUUI(),
+    secret: auth.sessionStrategy.secret,
+    resave: auth.sessionStrategy.resave,
+    saveUninitialized: auth.sessionStrategy.saveUninitialized,
+    cookie: {
+      secure: ssl, // if true only transmit cookie over https
+      httpOnly: auth.sessionStrategy.cookie.httpOnly,
+      maxAge: auth.sessionStrategy.cookie.maxAge,
+    },
+  };
 
-  APP.use(
-    session({
-      store: redisStore,
-      genid: () => randomUUI(),
-      secret: process.env.SESSION_SECRET || "secret",
-      resave: false, // required: force lightweight session keep alive (touch)
-      saveUninitialized: false, // recommended: only save session when data exists
-      cookie: {
-        secure: ssl, // if true only transmit cookie over https
-        httpOnly: true, // if true prevent client side JS from reading the cookie
-        maxAge: 90 * 24 * 60 * 60 * 1000, // session max age in miliseconds (3 months in this case)
-      },
-    })
-  );
+  if (performance.redis) {
+    const redisStore = new RedisStore({
+      client: redisClient,
+      prefix: auth.sessionStrategy.prefix,
+    });
+
+    return APP.use(session({ ...sessionObject, store: redisStore }));
+  }
+
+  return APP.use(session(sessionObject));
 }

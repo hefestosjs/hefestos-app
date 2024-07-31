@@ -1,8 +1,8 @@
 import { join } from "path";
 import { Request, Response, Next, redisClient } from "core";
+import { AppInformations } from "core/helpers";
 import jwt from "jsonwebtoken";
 import AuthConfig from "app/config/auth";
-import { AppInformations } from "core/helpers";
 
 export type TokenType = {
   request: Request;
