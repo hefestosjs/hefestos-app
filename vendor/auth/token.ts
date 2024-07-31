@@ -1,6 +1,8 @@
+import { join } from "path";
 import { Request, Response, Next, redisClient } from "core";
 import jwt from "jsonwebtoken";
 import AuthConfig from "app/config/auth";
+import { AppInformations } from "core/helpers";
 
 export type TokenType = {
   request: Request;
@@ -14,10 +16,16 @@ export const Token = async (props: TokenType, option: "login" | "logout") => {
     const { userId } = props;
     const { secret, expiresIn, useRedis } = AuthConfig.tokenStrategy;
 
+    const performanceConfig = join(
+      AppInformations.path,
+      "app/config/performance"
+    );
+    const performance = require(performanceConfig).PerformanceConfig;
+
     const token = jwt.sign({ userId }, secret, { expiresIn });
 
     // Store token in Redis
-    if (useRedis) {
+    if (useRedis && performance.redis) {
       try {
         await redisClient.set(String(userId), token);
       } catch (error) {
@@ -39,6 +47,12 @@ export const Token = async (props: TokenType, option: "login" | "logout") => {
     const { request, response } = props;
     const { useRedis, secret } = AuthConfig.tokenStrategy;
 
+    const performanceConfig = join(
+      AppInformations.path,
+      "app/config/performance"
+    );
+    const performance = require(performanceConfig).PerformanceConfig;
+
     const token = request.headers.authorization?.split(" ")[1];
 
     if (!token) {
@@ -52,7 +66,7 @@ export const Token = async (props: TokenType, option: "login" | "logout") => {
         return response.status(401).json({ message: "Invalid access token" });
       }
 
-      if (useRedis) {
+      if (useRedis && performance.redis) {
         const accessToken = await redisClient.get(decoded.userId);
 
         if (!accessToken || accessToken !== token) {
