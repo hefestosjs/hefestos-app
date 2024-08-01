@@ -39,17 +39,21 @@ const commands = {
   },
 
   // Others
-  test: () =>
-    execCommand("clear && jest --runInBand --detectOpenHandles --watchAll"),
-  g: () => execCommand("clear && plop"),
+  test: (args) =>
+    execCommand(
+      `clear && jest --runInBand --detectOpenHandles --watchAll ${args.join(
+        " "
+      )}`
+    ),
+  generate: () => execCommand("clear && plop"),
   studio: () => execCommand("prisma studio"),
   seed: () => execCommand("prisma db seed"),
 };
 
-const [, , script] = process.argv;
+const [, , script, ...args] = process.argv;
 
 if (commands[script]) {
-  commands[script]();
+  commands[script](args);
 } else {
   console.log(`Script "${script}" not found`);
 }
