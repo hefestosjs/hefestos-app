@@ -1,9 +1,9 @@
+import { join } from "path";
 import { Express } from "express";
 import session from "express-session";
 import RedisStore from "connect-redis";
 import { v4 as randomUUI } from "uuid";
 import { redisClient } from "./redis";
-import { join } from "path";
 import { isProd } from "../global";
 
 declare module "express-session" {
@@ -12,17 +12,15 @@ declare module "express-session" {
   }
 }
 
-const performanceConfigPath = join(
-  process.cwd(),
-  isProd,
-  "app/config/performance"
-);
-const performance = require(performanceConfigPath).default;
+const basePath = join(process.cwd(), isProd);
 
-const authConfigPath = join(process.cwd(), isProd, "app/config/auth");
+const performanceConfigPath = join(basePath, "app/config/performance");
+const performance = require(performanceConfigPath).PerformanceConfig;
+
+const authConfigPath = join(basePath, "app/config/auth");
 const auth = require(authConfigPath).default;
 
-const securityPath = join(process.cwd(), isProd, "app/config/security");
+const securityPath = join(basePath, "app/config/security");
 const security = require(securityPath).SecurityPolicy;
 
 export default function Authentication(APP: Express) {
