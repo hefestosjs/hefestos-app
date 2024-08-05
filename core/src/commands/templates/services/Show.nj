@@ -1,0 +1,15 @@
+import { AppError, ResponseUtils } from "core/helpers";
+import { {{pascalCase name}} } from "app/database";
+
+export default async function Show(id: string) {
+  const query = await {{pascalCase name}}.findFirst({ where: { id } });
+
+  if (!query) throw AppError.E_NOT_FOUND();
+
+  const result = ResponseUtils.exclude(query, [
+    "createdAt",
+    "updatedAt",
+  ]);
+
+  return result;
+}

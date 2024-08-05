@@ -1,0 +1,15 @@
+import { AppError } from "core/helpers";
+import { {{pascalCase name}} } from "app/database";
+import { {{pascalCase name}}Service } from ".";
+
+export default async function Delete(id: string) {
+  await {{pascalCase name}}Service.Show(id);
+
+  const query = await {{pascalCase name}}.delete({
+    where: { id },
+  });
+
+  if (!query) throw AppError.E_GENERIC_ERROR("Error trying to delete data.");
+
+  return true;
+}

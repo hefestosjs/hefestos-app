@@ -1,0 +1,39 @@
+import { ResponseUtils } from "core/helpers";
+import { {{pascalCase name}} } from "app/database";
+
+export default async function List(page: number = 1, filter: string = "") {
+  filter = decodeURIComponent(filter);
+
+  const perPage = 10;
+  const skip = (page - 1) * perPage;
+  const totalData = await {{pascalCase name}}.count();
+
+  const query = await {{pascalCase name}}.findMany({
+    where: {
+      OR: [
+        {
+          first: { contains: filter, mode: "insensitive" },
+        },
+        {
+          second: { contains: filter, mode: "insensitive" },
+        },
+      ],
+    },
+    take: perPage,
+    skip,
+  });
+
+  const data = ResponseUtils.excludeFromList(query, [
+    "createdAt",
+    "updatedAt",
+  ]);
+
+  const response = ResponseUtils.paginate({
+    data,
+    totalData,
+    page,
+    perPage,
+  });
+
+  return response;
+}

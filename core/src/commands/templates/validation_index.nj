@@ -1,9 +1,9 @@
 import { CreateValidation } from "./Create";
 import { UpdateValidation } from "./Update";
 
-const {{ pascalCase name }}Validator = {
+const {{pascalCase (pluralize name)}}Validator = {
   Create: CreateValidation,
   Update: UpdateValidation,
 };
 
-export default {{ pascalCase name }}Validator;
+export default {{pascalCase (pluralize name)}}Validator;

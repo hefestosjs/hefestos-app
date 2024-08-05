@@ -1,7 +1,7 @@
 import { Request, Response } from "core";
 import { ApiResponse } from "core/helpers";
 import {{pascalCase name}}Service from "app/services/{{pascalCase name}}Service";
-import {{pascalCase name}}sValidator from "app/validations/{{pascalCase name}}";
+import {{pascalCase (pluralize name)}}Validator from "app/validations/{{pascalCase name}}";
 
 export default class {{pascalCase name}}Controller {
   static async index(request: Request, response: Response) {
@@ -28,7 +28,7 @@ export default class {{pascalCase name}}Controller {
 
   static async store(request: Request, response: Response) {
     try {
-      await {{pascalCase name}}Validator.Create(request.body);
+      await {{pascalCase (pluralize name)}}Validator.Create(request.body);
       const data = await {{pascalCase name}}Service.store(request.body);
 
       return ApiResponse.success(response, data, "redirectRoute");
@@ -50,7 +50,7 @@ export default class {{pascalCase name}}Controller {
 
   static async update(request: Request, response: Response) {
     try {
-      await {{pascalCase name}}Validator.Update(request.body);
+      await {{pascalCase (pluralize name)}}Validator.Update(request.body);
       const { id } = request.params;
       const { name, email } = request.body;
       const data = await {{pascalCase name}}Service.update(id, name, email);
