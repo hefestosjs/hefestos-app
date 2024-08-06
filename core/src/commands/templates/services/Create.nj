@@ -1,10 +1,9 @@
 import { AppError, ResponseUtils } from "core/helpers";
-import { SchemaType } from "app/validations/{{pascalCase (pluralize name)}}/Create";
 import { {{ pascalCase name }} } from "app/database";
-import {{pascalCase (pluralize name)}}Validator from "app/validations/{{pascalCase (pluralize name)}}";
+import { SchemaType } from "app/validations/{{pascalCase (pluralize name)}}/Create";
 
 export default async function Create(data: SchemaType) {
-  const query = await {{pascalCase name}}.create({ data: payload });
+  const query = await {{pascalCase name}}.create({ data });
 
   if (!query) throw AppError.E_GENERIC_ERROR("Error trying to save data.");
 

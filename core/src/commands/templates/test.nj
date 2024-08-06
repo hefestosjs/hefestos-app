@@ -15,4 +15,8 @@ describe("{{ pascalCase name }} test", () => {
     //   })
     // );
   });
+
+  afterEach(async () => {
+    // Delete the created data
+  });
 });
