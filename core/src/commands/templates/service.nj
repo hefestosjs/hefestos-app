@@ -1,8 +1,8 @@
 import { AppError, ResponseUtils } from "core/helpers";
 import { {{pascalCase name}} } from "app/database";
 
-export default class {{pascalCase name}}Service {
-  static async index(currentPage: number = 1) {
+export class {{pascalCase name}}Service {
+  static async List(currentPage: number = 1) {
     const perPage = 10;
     const page = currentPage ? currentPage : 1;
     const skip = (page - 1) * perPage;
@@ -20,13 +20,13 @@ export default class {{pascalCase name}}Service {
     return response;
   }
 
-  static async show(id: string) {
+  static async Show(id: string) {
     const data = await {{pascalCase name}}.findFirstOrThrow({ where: { id } });
 
     return data;
   }
 
-  static async store(payload: any) {
+  static async Create(payload: any) {
     const data = await {{pascalCase name}}.create({ data: payload });
 
     if (!data) throw AppError.E_GENERIC_ERROR("Error when create a data");
@@ -34,7 +34,7 @@ export default class {{pascalCase name}}Service {
     return data;
   }
 
-  static async update(id: string, name: string, email: string) {
+  static async Update(id: string, name: string, email: string) {
     await {{pascalCase name}}.findFirstOrThrow({ where: { id } });
 
     const data = await {{pascalCase name}}.update({
@@ -45,7 +45,7 @@ export default class {{pascalCase name}}Service {
     return data;
   }
 
-  static async destroy(id: string) {
+  static async Delete(id: string) {
     const data = await {{pascalCase name}}.delete({ where: { id } });
 
     return data;

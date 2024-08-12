@@ -1,12 +1,12 @@
 import { Request, Response } from "core";
 import { ApiResponse } from "core/helpers";
-import {{pascalCase name}}Service from "app/services/{{pascalCase name}}Service";
+import { {{pascalCase name}}Service } from "app/services/{{pascalCase name}}";
 import {{pascalCase (pluralize name)}}Validator from "app/validations/{{pascalCase (pluralize name)}}";
 
 export default class {{pascalCase name}}Controller {
   static async index(request: Request, response: Response) {
     const { page } = request.query;
-    const data = await {{pascalCase name}}Service.index(Number(page));
+    const data = await {{pascalCase name}}Service.List(Number(page));
 
     return response.render("{{name}}/list", { title: "List {{pascalCase name}}", data });
   }
@@ -14,7 +14,7 @@ export default class {{pascalCase name}}Controller {
   static async show(request: Request, response: Response) {
     try {
       const { id } = request.params;
-      const data = await {{pascalCase name}}Service.show(id);
+      const data = await {{pascalCase name}}Service.Show(id);
 
       return response.render("{{name}}/show", { data });
     } catch (error: any) {
@@ -29,9 +29,9 @@ export default class {{pascalCase name}}Controller {
   static async store(request: Request, response: Response) {
     try {
       await {{pascalCase (pluralize name)}}Validator.Create(request.body);
-      const data = await {{pascalCase name}}Service.store(request.body);
+      const data = await {{pascalCase name}}Service.Create(request.body);
 
-      return ApiResponse.success(response, data, "redirectRoute");
+      return ApiResponse.success(response, data, "/redirectRoute");
     } catch (error: any) {
       return ApiResponse.error(response, error);
     }
@@ -40,7 +40,7 @@ export default class {{pascalCase name}}Controller {
   static async edit(request: Request, response: Response) {
     try {
       const { id } = request.params;
-      const { name, email } = await {{pascalCase name}}Service.show(id);
+      const { name, email } = await {{pascalCase name}}Service.Show(id);
 
       return response.render("{{name}}/edit", { id, name, email });
     } catch (error: any) {
@@ -53,9 +53,9 @@ export default class {{pascalCase name}}Controller {
       await {{pascalCase (pluralize name)}}Validator.Update(request.body);
       const { id } = request.params;
       const { name, email } = request.body;
-      const data = await {{pascalCase name}}Service.update(id, name, email);
+      const data = await {{pascalCase name}}Service.Update(id, name, email);
 
-      return ApiResponse.success(response, data, "redirectRoute");
+      return ApiResponse.success(response, data, "/redirectRoute");
     } catch (error: any) {
       return ApiResponse.error(response, error);
     }
@@ -64,9 +64,9 @@ export default class {{pascalCase name}}Controller {
   static async destroy(request: Request, response: Response) {
     try {
       const { id } = request.params;
-      const data = await {{pascalCase name}}Service.destroy(id);
+      const data = await {{pascalCase name}}Service.Delete(id);
 
-      return ApiResponse.success(response, data, "redirectRoute");
+      return ApiResponse.success(response, data, "/redirectRoute");
     } catch (error: any) {
       return ApiResponse.error(response, error);
     }
