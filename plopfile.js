@@ -91,40 +91,71 @@ module.exports = (plop) => {
   });
 
   plop.setGenerator("validation", {
-    description: "Application route validation logic",
+    description: "Application validation logic",
     prompts: [
+      {
+        type: "list",
+        name: "validation",
+        message: "What do you want to create?",
+        choices: [
+          { name: "A validation set", value: "set" },
+          { name: "A single validation file", value: "single" },
+        ],
+      },
+      {
+        type: "input",
+        name: "folder",
+        message: "Validation folder name",
+        when: (answers) => answers.validation === "single",
+      },
       {
         type: "input",
         name: "name",
-        message: "Validation name (recommended to use plural)",
+        message: "Validation name",
+        when: (answers) => answers.validation === "single",
+      },
+      {
+        type: "input",
+        name: "set",
+        message: "Validation set name (Recommended to use a model name)",
+        when: (answers) => answers.validation === "set",
       },
     ],
-    actions: [
-      {
-        type: "add",
-        path: join(
-          process.cwd(),
-          "app/validations/{{pascalCase name}}/index.ts"
-        ),
-        templateFile: "core/src/commands/templates/validation_index.nj",
-      },
-      {
-        type: "add",
-        path: join(
-          process.cwd(),
-          "app/validations/{{pascalCase name}}/Create.ts"
-        ),
-        templateFile: "core/src/commands/templates/validation_create.nj",
-      },
-      {
-        type: "add",
-        path: join(
-          process.cwd(),
-          "app/validations/{{pascalCase name}}/Update.ts"
-        ),
-        templateFile: "core/src/commands/templates/validation_update.nj",
-      },
-    ],
+    actions: function (data) {
+      const actions = [];
+      const basePath = process.cwd();
+
+      if (data.validation === "single") {
+        actions.push({
+          type: "add",
+          path: join(
+            basePath,
+            "app/validations/{{pascalCase folder}}/{{pascalCase name}}.ts"
+          ),
+          templateFile: "core/src/commands/templates/validations/example.nj",
+        });
+      } else if (data.validation === "set") {
+        actions.push({
+          type: "add",
+          path: join(basePath, "app/validations/{{pascalCase set}}/index.ts"),
+          templateFile: "core/src/commands/templates/validations/index.nj",
+        });
+
+        actions.push({
+          type: "add",
+          path: join(basePath, "app/validations/{{pascalCase set}}/Create.ts"),
+          templateFile: "core/src/commands/templates/validations/create.nj",
+        });
+
+        actions.push({
+          type: "add",
+          path: join(basePath, "app/validations/{{pascalCase set}}/Update.ts"),
+          templateFile: "core/src/commands/templates/validations/update.nj",
+        });
+      }
+
+      return actions;
+    },
   });
 
   plop.setGenerator("task", {
