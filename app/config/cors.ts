@@ -1,5 +1,5 @@
 import { registerMiddleware } from "core";
-import cors, { CorsOptions } from "cors";
+import cors, { type CorsOptions } from "cors";
 
 const options: CorsOptions = {
   // origin: true, // Reflects the request origin, allowing requests from any origin

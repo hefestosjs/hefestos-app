@@ -1,11 +1,11 @@
-import { describe, it, expect } from "@jest/globals";
+import { describe, expect, it } from "@jest/globals";
 
 function sum(x: number, y: number) {
-  return x + y;
+	return x + y;
 }
 
 describe("Sample test", () => {
-  it("should test a sum and return the value 3", () => {
-    expect(sum(1, 2)).toBe(3);
-  });
+	it("should test a sum and return the value 3", () => {
+		expect(sum(1, 2)).toBe(3);
+	});
 });

@@ -1,8 +1,8 @@
 export const PerformanceConfig = {
-  cluster: false,
-  redis: false,
-  cache: {
-    active: true,
-    lifeTime: 60,
-  },
+	cluster: false,
+	redis: false,
+	cache: {
+		active: true,
+		lifeTime: 60,
+	},
 };

@@ -1,7 +1,7 @@
 import multer from "multer";
+import type { ParamsType } from ".";
 import { storage } from "./storage";
-import { ParamsType } from ".";
 
 export const LocalStrategy = (params?: ParamsType) => {
-  return multer({ storage: storage(params) });
+	return multer({ storage: storage(params) });
 };

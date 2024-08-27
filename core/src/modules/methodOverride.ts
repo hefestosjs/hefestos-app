@@ -1,13 +1,15 @@
-import { RequestInterface, ResponseInterface } from "../interfaces/router";
+import type { RequestInterface, ResponseInterface } from "../interfaces/router";
 
 export default function MethodOverride(
-  req: RequestInterface,
-  res: ResponseInterface
+	req: RequestInterface,
+	res: ResponseInterface,
 ) {
-  if (req.body && typeof req.body === "object" && "_method" in req.body) {
-    const method = req.body._method;
-    delete req.body._method;
+	if (req.body && typeof req.body === "object" && "_method" in req.body) {
+		const method = req.body._method;
 
-    return method;
-  }
+		// biome-ignore lint/performance/noDelete: <explanation>
+		delete req.body._method;
+
+		return method;
+	}
 }

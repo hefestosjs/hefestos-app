@@ -1,6 +1,6 @@
 import AuthConfig from "app/config/auth";
-import { Session, SessionType } from "./session";
-import { Token, TokenType } from "./token";
+import { Session, type SessionType } from "./session";
+import { Token, type TokenType } from "./token";
 
 type LoginType = {
   session?: SessionType;

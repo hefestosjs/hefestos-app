@@ -1,4 +1,4 @@
-import { Faker, faker } from "@faker-js/faker";
+import { type Faker, faker } from "@faker-js/faker";
 
 export type Attributes = Record<string, any>;
 
@@ -14,8 +14,6 @@ export class Factory {
   private $model: any;
   private $attributesFn: (faker: Faker) => Attributes = () => ({});
   private $mergedAttributes: Attributes = {};
-
-  constructor() {}
 
   define(model: any, attributes: (faker: Faker) => Attributes): FactoryType {
     this.$model = model;
@@ -38,7 +36,7 @@ export class Factory {
   }
 
   async createMany(count: number): Promise<any[]> {
-    const records = [];
+    const records: any[] = [];
 
     for (let i = 0; i < count; i++) {
       records.push(await this.create());
@@ -54,7 +52,7 @@ export class Factory {
   }
 
   async makeStubbedMany(count: number): Promise<Attributes[]> {
-    const stubs = [];
+    const stubs: Attributes[] = [];
 
     for (let i = 0; i < count; i++) {
       stubs.push(await this.makeStubbed());

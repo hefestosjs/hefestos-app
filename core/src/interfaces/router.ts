@@ -1,28 +1,30 @@
-import {
-  Router as ExpressRouter,
+import type {
+  NextFunction as ExpressNextFunction,
   Request as ExpressRequest,
   Response as ExpressResponse,
-  NextFunction as ExpressNextFunction,
+  Router as ExpressRouter,
 } from "express";
 
-export interface RequestInterface extends ExpressRequest {}
-export interface ResponseInterface extends ExpressResponse {}
-export interface NextInterface extends ExpressNextFunction {}
+export type {
+  ExpressRequest as RequestInterface,
+  ExpressResponse as ResponseInterface,
+  ExpressNextFunction as NextInterface,
+};
 
 export interface Controller {
-  index?(req: RequestInterface, res: ResponseInterface): void;
-  show?(req: RequestInterface, res: ResponseInterface): void;
-  create?(req: RequestInterface, res: ResponseInterface): void;
-  store?(req: RequestInterface, res: ResponseInterface): void;
-  edit?(req: RequestInterface, res: ResponseInterface): void;
-  update?(req: RequestInterface, res: ResponseInterface): void;
-  destroy?(req: RequestInterface, res: ResponseInterface): void;
+  index?(req: ExpressRequest, res: ExpressResponse): void;
+  show?(req: ExpressRequest, res: ExpressResponse): void;
+  create?(req: ExpressRequest, res: ExpressResponse): void;
+  store?(req: ExpressRequest, res: ExpressResponse): void;
+  edit?(req: ExpressRequest, res: ExpressResponse): void;
+  update?(req: ExpressRequest, res: ExpressResponse): void;
+  destroy?(req: ExpressRequest, res: ExpressResponse): void;
 }
 
 export interface RouterInterface extends ExpressRouter {
   resources(
     path: string,
     controllerName: string,
-    middlewares?: any[]
+    middlewares?: any[],
   ): RouterInterface;
 }

@@ -1,7 +1,7 @@
 export function formatRoutePath(str: string): string {
-  if (!str.startsWith("/")) {
-    str = "/" + str;
-  }
+	if (!str.startsWith("/")) {
+		str = `/${str}`;
+	}
 
-  return str;
+	return str;
 }
