@@ -1,4 +1,4 @@
-import { Request, Response } from "core";
+import type { Request, Response } from "core";
 import { ApiResponse } from "core/helpers";
 import { {{pascalCase name}}Service } from "app/services/{{pascalCase name}}";
 import {{pascalCase (pluralize name)}}Validator from "app/validations/{{pascalCase (pluralize name)}}";

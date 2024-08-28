@@ -2,7 +2,7 @@ import { describe, it, expect } from "@jest/globals";
 import { Supertest } from "core/modules";
 
 describe("{{ pascalCase name }} test", () => {
-  it("describe what your test is expecting", () => {
+  it("describe what your test is expecting", async () => {
     // Use Supertest to test your API routes.
     // const { body, status } = await Supertest.get("/path");
 

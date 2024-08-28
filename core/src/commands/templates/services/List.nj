@@ -1,21 +1,21 @@
 import { ResponseUtils } from "core/helpers";
-import { {{pascalCase name}} } from "app/database";
+import { Teste } from "app/database";
 
-export default async function List(page: number = 1, filter: string = "") {
-  filter = decodeURIComponent(filter);
+export default async function List(page = 1, filter = "") {
+  const filterDecoded = decodeURIComponent(filter);
 
   const perPage = 10;
   const skip = (page - 1) * perPage;
-  const totalData = await {{pascalCase name}}.count();
+  const totalData = await Teste.count();
 
-  const query = await {{pascalCase name}}.findMany({
+  const query = await Teste.findMany({
     where: {
       OR: [
         {
-          first: { contains: filter, mode: "insensitive" },
+          first: { contains: filterDecoded, mode: "insensitive" },
         },
         {
-          second: { contains: filter, mode: "insensitive" },
+          second: { contains: filterDecoded, mode: "insensitive" },
         },
       ],
     },
@@ -23,10 +23,7 @@ export default async function List(page: number = 1, filter: string = "") {
     skip,
   });
 
-  const data = ResponseUtils.excludeFromList(query, [
-    "createdAt",
-    "updatedAt",
-  ]);
+  const data = ResponseUtils.excludeFromList(query, ["createdAt", "updatedAt"]);
 
   const response = ResponseUtils.paginate({
     data,

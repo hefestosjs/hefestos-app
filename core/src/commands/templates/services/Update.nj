@@ -1,7 +1,7 @@
 import { AppError } from "core/helpers";
 import { {{pascalCase name}} } from "app/database";
 import { {{pascalCase name}}Service } from ".";
-import { SchemaType } from "app/validations/{{pascalCase (pluralize name)}}/Update";
+import type { SchemaType } from "app/validations/{{pascalCase (pluralize name)}}/Update";
 
 export default async function Update(id: string, data: SchemaType) {
   await {{pascalCase name}}Service.Show(id);

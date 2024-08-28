@@ -6,7 +6,9 @@ dist
 # Files
 .env
 .nvmrc
+.editorconfig
 *.log
 yarn.lock
+bun.lockb
 package-lock.json
 
