@@ -4,11 +4,7 @@
   "description": "Hefestos application template",
   "author": "lucasnjsilva",
   "license": "ISC",
-  "keywords": [
-    "hefestosjs",
-    "hefestos",
-    "mvc"
-  ],
+  "keywords": ["hefestosjs", "hefestos", "mvc"],
   "main": "dist/start/server.js",
   "scripts": {
     "build": "node start/run.js build",
@@ -49,7 +45,6 @@
     "esbuild": "0.23.1",
     "jest": "^29.7.0",
     "nodemon": "^3.1.0",
-    "npm-run-all": "^4.1.5",
     "plop": "^4.0.1",
     "pluralize": "^8.0.0",
     "prisma": "^5.11.0",
