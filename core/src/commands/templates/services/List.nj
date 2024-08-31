@@ -1,5 +1,5 @@
 import { ResponseUtils } from "core/helpers";
-import { Teste } from "app/database";
+import { {{pascalCase name}} } from "app/database";
 
 export default async function List(page = 1, filter = "") {
   const filterDecoded = decodeURIComponent(filter);
