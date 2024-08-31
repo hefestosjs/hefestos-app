@@ -1,48 +1,86 @@
 import { join } from "node:path";
-import { Router as ExpressRouter } from "express";
-import { isProd } from "./global";
-import type { Controller, RouterInterface } from "./interfaces/router";
+import { Router as ExpressRouter, type RequestHandler } from "express";
+import type {
+  Controller,
+  MiddlewareForMethod,
+  RouterInterface,
+} from "./interfaces/router";
 import { formatRoutePath } from "./utils/formatRoutePath";
 
 export function Router(): RouterInterface {
-	const router = ExpressRouter() as RouterInterface;
+  const router = ExpressRouter() as RouterInterface;
 
-	router.resources = (path, controllerName, middlewares = []) => {
-		const routePath = formatRoutePath(path);
-		const controllerPath = join(process.cwd(), isProd, "app/controllers");
-		const controllerFile = `${controllerPath}/${controllerName}`;
-		const controller: Controller = require(controllerFile).default;
+  router.resources = (path, controllerName, middlewares = []) => {
+    const routePath = formatRoutePath(path);
+    const controllerPath = join(process.cwd(), "app/controllers");
+    const controllerFile = `${controllerPath}/${controllerName}`;
+    const controller: Controller = require(controllerFile).default;
 
-		if (controller.index) {
-			router.get(routePath, ...middlewares, controller.index);
-		}
+    const getMiddlewares = (method: string) => {
+      const commonMiddlewares = middlewares.filter(
+        (mw): mw is RequestHandler => typeof mw === "function",
+      );
 
-		if (controller.show) {
-			router.get(`${routePath}/details/:id`, ...middlewares, controller.show);
-		}
+      const specificMiddlewares = middlewares
+        .filter(
+          (mw): mw is MiddlewareForMethod =>
+            typeof mw === "object" && "method" in mw && mw.method === method,
+        )
+        .flatMap((mw) => mw.middleware);
 
-		if (controller.create) {
-			router.get(`${routePath}/create`, ...middlewares, controller.create);
-		}
+      return [...commonMiddlewares, ...specificMiddlewares];
+    };
 
-		if (controller.store) {
-			router.post(routePath, ...middlewares, controller.store);
-		}
+    if (controller.index) {
+      router.get(routePath, ...getMiddlewares("index"), controller.index);
+    }
 
-		if (controller.edit) {
-			router.get(`${routePath}/edit/:id`, ...middlewares, controller.edit);
-		}
+    if (controller.show) {
+      router.get(
+        `${routePath}/details/:id`,
+        ...getMiddlewares("show"),
+        controller.show,
+      );
+    }
 
-		if (controller.update) {
-			router.put(`${routePath}/:id`, ...middlewares, controller.update);
-		}
+    if (controller.create) {
+      router.get(
+        `${routePath}/create`,
+        ...getMiddlewares("create"),
+        controller.create,
+      );
+    }
 
-		if (controller.destroy) {
-			router.delete(`${routePath}/:id`, ...middlewares, controller.destroy);
-		}
+    if (controller.store) {
+      router.post(routePath, ...getMiddlewares("store"), controller.store);
+    }
 
-		return router;
-	};
+    if (controller.edit) {
+      router.get(
+        `${routePath}/edit/:id`,
+        ...getMiddlewares("edit"),
+        controller.edit,
+      );
+    }
 
-	return router;
+    if (controller.update) {
+      router.put(
+        `${routePath}/:id`,
+        ...getMiddlewares("update"),
+        controller.update,
+      );
+    }
+
+    if (controller.destroy) {
+      router.delete(
+        `${routePath}/:id`,
+        ...getMiddlewares("destroy"),
+        controller.destroy,
+      );
+    }
+
+    return router;
+  };
+
+  return router;
 }

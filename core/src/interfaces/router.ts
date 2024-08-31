@@ -3,6 +3,7 @@ import type {
   Request as ExpressRequest,
   Response as ExpressResponse,
   Router as ExpressRouter,
+  RequestHandler,
 } from "express";
 
 export type {
@@ -21,10 +22,15 @@ export interface Controller {
   destroy?(req: ExpressRequest, res: ExpressResponse): void;
 }
 
+export interface MiddlewareForMethod {
+  method: string;
+  middleware: RequestHandler | RequestHandler[];
+}
+
 export interface RouterInterface extends ExpressRouter {
   resources(
     path: string,
     controllerName: string,
-    middlewares?: any[],
+    middlewares?: (RequestHandler | MiddlewareForMethod)[],
   ): RouterInterface;
 }
