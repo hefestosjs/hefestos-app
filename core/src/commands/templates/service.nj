@@ -1,14 +1,31 @@
 import { AppError, ResponseUtils } from "core/helpers";
 import { {{pascalCase name}} } from "app/database";
+import type { SchemaType } from "app/validations/{{pascalCase (pluralize name)}}/Create";
 
 export class {{pascalCase name}}Service {
-  static async List(currentPage: number = 1) {
-    const perPage = 10;
-    const page = currentPage ? currentPage : 1;
-    const skip = (page - 1) * perPage;
+  static async List(page = 1, filter = "") {
+    const filterDecoded = decodeURIComponent(filter);
 
+    const perPage = 10;
+    const skip = (page - 1) * perPage;
     const totalData = await {{pascalCase name}}.count();
-    const data = await {{pascalCase name}}.findMany({ take: perPage, skip });
+
+    const query = await {{pascalCase name}}.findMany({
+      where: {
+        // OR: [
+        //   {
+        //     first: { contains: filterDecoded, mode: "insensitive" },
+        //   },
+        //   {
+        //     second: { contains: filterDecoded, mode: "insensitive" },
+        //   },
+        // ],
+      },
+      take: perPage,
+      skip,
+    });
+
+    const data = ResponseUtils.excludeFromList(query, ["createdAt", "updatedAt"]);
 
     const response = ResponseUtils.paginate({
       data,
@@ -21,33 +38,50 @@ export class {{pascalCase name}}Service {
   }
 
   static async Show(id: string) {
-    const data = await {{pascalCase name}}.findFirstOrThrow({ where: { id } });
+    const query = await {{pascalCase name}}.findFirst({ where: { id } });
 
-    return data;
+    if (!query) throw AppError.E_NOT_FOUND();
+
+    const result = ResponseUtils.exclude(query, [
+      "createdAt",
+      "updatedAt",
+    ]);
+
+    return result;
   }
 
-  static async Create(payload: any) {
-    const data = await {{pascalCase name}}.create({ data: payload });
+  static async Create(data: SchemaType) {
+    const query = await {{pascalCase name}}.create({ data });
 
-    if (!data) throw AppError.E_GENERIC_ERROR("Error when create a data");
+    if (!query) throw AppError.E_GENERIC_ERROR("Error trying to save data.");
 
-    return data;
+    const result = ResponseUtils.exclude(query, [
+      "createdAt",
+      "updatedAt",
+    ]);
+
+    return result;
   }
 
-  static async Update(id: string, name: string, email: string) {
-    await {{pascalCase name}}.findFirstOrThrow({ where: { id } });
+  static async Update(id: string, data: SchemaType) {
+    await {{pascalCase name}}Service.Show(id);
 
-    const data = await {{pascalCase name}}.update({
-      where: { id },
-      data: { name, email },
-    });
+    const result = await {{pascalCase name}}.update({ where: { id }, data });
 
-    return data;
+    if (!result) throw AppError.E_GENERIC_ERROR("Error trying to save data.");
+
+    return result;
   }
 
   static async Delete(id: string) {
-    const data = await {{pascalCase name}}.delete({ where: { id } });
+    await {{pascalCase name}}Service.Show(id);
 
-    return data;
+    const query = await {{pascalCase name}}.delete({
+      where: { id },
+    });
+
+    if (!query) throw AppError.E_GENERIC_ERROR("Error trying to delete data.");
+
+    return true;
   }
 }

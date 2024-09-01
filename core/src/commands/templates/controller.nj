@@ -5,8 +5,12 @@ import {{pascalCase (pluralize name)}}Validator from "app/validations/{{pascalCa
 
 export default class {{pascalCase name}}Controller {
   static async index(request: Request, response: Response) {
-    const { page } = request.query;
-    const data = await {{pascalCase name}}Service.List(Number(page));
+    const { page, filter } = request.query as {
+      page?: number;
+      filter?: string;
+    };
+    
+    const data = await {{pascalCase name}}Service.List(page, filter);
 
     return response.render("{{name}}/list", { title: "List {{pascalCase name}}", data });
   }
@@ -28,10 +32,10 @@ export default class {{pascalCase name}}Controller {
 
   static async store(request: Request, response: Response) {
     try {
-      await {{pascalCase (pluralize name)}}Validator.Create(request.body);
+      {{pascalCase (pluralize name)}}Validator.Create(request.body);
       const data = await {{pascalCase name}}Service.Create(request.body);
 
-      return ApiResponse.success(response, data, "/redirectRoute");
+      return ApiResponse.success(response, data, "/{{pluralize name}}");
     } catch (error: any) {
       return ApiResponse.error(response, error);
     }
@@ -40,9 +44,9 @@ export default class {{pascalCase name}}Controller {
   static async edit(request: Request, response: Response) {
     try {
       const { id } = request.params;
-      const { name, email } = await {{pascalCase name}}Service.Show(id);
+      const data = await {{pascalCase name}}Service.Show(id);
 
-      return response.render("{{name}}/edit", { id, name, email });
+      return response.render("{{name}}/edit", { data });
     } catch (error: any) {
       return ApiResponse.error(response, error);
     }
@@ -50,12 +54,11 @@ export default class {{pascalCase name}}Controller {
 
   static async update(request: Request, response: Response) {
     try {
-      await {{pascalCase (pluralize name)}}Validator.Update(request.body);
+      {{pascalCase (pluralize name)}}Validator.Update(request.body);
       const { id } = request.params;
-      const { name, email } = request.body;
-      const data = await {{pascalCase name}}Service.Update(id, { name, email });
+      const data = await {{pascalCase name}}Service.Update(id, request.body);
 
-      return ApiResponse.success(response, data, "/redirectRoute");
+      return ApiResponse.success(response, data, "/{{pluralize name}}");
     } catch (error: any) {
       return ApiResponse.error(response, error);
     }
@@ -66,7 +69,7 @@ export default class {{pascalCase name}}Controller {
       const { id } = request.params;
       const data = await {{pascalCase name}}Service.Delete(id);
 
-      return ApiResponse.success(response, data, "/redirectRoute");
+      return ApiResponse.success(response, data, "/{{pluralize name}}");
     } catch (error: any) {
       return ApiResponse.error(response, error);
     }
