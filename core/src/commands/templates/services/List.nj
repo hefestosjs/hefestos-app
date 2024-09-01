@@ -6,18 +6,18 @@ export default async function List(page = 1, filter = "") {
 
   const perPage = 10;
   const skip = (page - 1) * perPage;
-  const totalData = await Teste.count();
+  const totalData = await {{pascalCase name}}.count();
 
-  const query = await Teste.findMany({
+  const query = await {{pascalCase name}}.findMany({
     where: {
-      OR: [
-        {
-          first: { contains: filterDecoded, mode: "insensitive" },
-        },
-        {
-          second: { contains: filterDecoded, mode: "insensitive" },
-        },
-      ],
+      // OR: [
+      //   {
+      //     first: { contains: filterDecoded, mode: "insensitive" },
+      //   },
+      //   {
+      //     second: { contains: filterDecoded, mode: "insensitive" },
+      //   },
+      // ],
     },
     take: perPage,
     skip,
