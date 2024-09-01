@@ -1,16 +1,13 @@
 import * as z from "zod";
+import { SchemaCreate } from "./Create";
 
-const Schema = z
-  .object({
-    name: z.string().min(1).max(255),
-  })
-  .partial({ name: true });
+export const SchemaUpdate = SchemaCreate.partial({ name: true });
 
-export type SchemaType = z.infer<typeof Schema>;
+export type SchemaType = z.infer<typeof SchemaUpdate>;
 
 export function UpdateValidation(data: SchemaType) {
   try {
-    Schema.parse(data);
+    SchemaUpdate.parse(data);
   } catch (error) {
     if (error instanceof z.ZodError) {
       throw error;
