@@ -12,7 +12,7 @@ export default class {{pascalCase name}}Controller {
     
     const data = await {{pascalCase name}}Service.List(page, filter);
 
-    return response.render("{{name}}/list", { title: "List {{pascalCase name}}", data });
+    return response.render("{{pluralize name}}/list", { title: "List {{pascalCase name}}", data });
   }
 
   static async show(request: Request, response: Response) {
@@ -20,14 +20,14 @@ export default class {{pascalCase name}}Controller {
       const { id } = request.params;
       const data = await {{pascalCase name}}Service.Show(id);
 
-      return response.render("{{name}}/show", { data });
+      return response.render("{{pluralize name}}/show", { data });
     } catch (error: any) {
       return ApiResponse.error(response, error);
     }
   }
 
   static async create(request: Request, response: Response) {
-    return response.render("{{name}}/create", { title: "Create {{pascalCase name}}" });
+    return response.render("{{pluralize name}}/create", { title: "Create {{pascalCase name}}" });
   }
 
   static async store(request: Request, response: Response) {
@@ -46,7 +46,7 @@ export default class {{pascalCase name}}Controller {
       const { id } = request.params;
       const data = await {{pascalCase name}}Service.Show(id);
 
-      return response.render("{{name}}/edit", { data });
+      return response.render("{{pluralize name}}/edit", { data });
     } catch (error: any) {
       return ApiResponse.error(response, error);
     }
