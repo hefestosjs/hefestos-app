@@ -1,8 +1,8 @@
-{% extends '../layouts/default.nj' %}
+{% extends 'default.nj' %}
 {% set title = 'Homepage' %}
 
 {% block body %}
-  <section class="bg-gray-100 h-screen flex items-center justify-center">
+  <main class="bg-gray-100 h-screen flex items-center justify-center">
     <div class="text-center">
       <h1 class="text-9xl font-bold text-gray-800">HefestoJS</h1>
 
@@ -10,5 +10,5 @@
         <a href="https://hefestosjs.github.io/docs/" class="text-blue-500 hover:underline">Documentation</a>
       </div>
     </div>
-  </section>
+  </main>
 {% endblock %}

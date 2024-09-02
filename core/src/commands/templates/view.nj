@@ -1,4 +1,7 @@
-{% extends '../layouts/default.nj' %}
+{# Layout #}
+{% extends 'default.nj' %}
+
+{# Page title #}
 {% set title = 'Title' %}
 
 {% block body %}
