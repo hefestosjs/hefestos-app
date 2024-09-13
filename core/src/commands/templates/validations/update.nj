@@ -1,15 +1,16 @@
+import { AppError } from "core/helpers";
 import * as z from "zod";
 import { SchemaCreate } from "./Create";
 
-export const SchemaUpdate = SchemaCreate.partial({ name: true });
+export const SchemaUpdate = SchemaCreate.pick({ name: true }).partial({});
 
 export type SchemaType = z.infer<typeof SchemaUpdate>;
 
-export function UpdateValidation(data: SchemaType) {
+export async function UpdateValidation(data: SchemaType) {
   try {
     SchemaUpdate.parse(data);
   } catch (error) {
-    if (error instanceof z.ZodError) {
+    if (error instanceof z.ZodError || error instanceof AppError) {
       throw error;
     }
   }

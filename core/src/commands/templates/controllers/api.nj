@@ -12,7 +12,7 @@ export default class {{pascalCase name}}Controller {
     
     const data = await {{pascalCase name}}Service.List(page, filter);
 
-    return response.render("{{pluralize name}}/list", { title: "List {{pascalCase name}}", data });
+    return ApiResponse.pagination(response, data);
   }
 
   static async show(request: Request, response: Response) {
@@ -20,33 +20,18 @@ export default class {{pascalCase name}}Controller {
       const { id } = request.params;
       const data = await {{pascalCase name}}Service.Show(id);
 
-      return response.render("{{pluralize name}}/show", { data });
+      return ApiResponse.success(response, data);
     } catch (error: any) {
       return ApiResponse.error(response, error);
     }
-  }
-
-  static async create(request: Request, response: Response) {
-    return response.render("{{pluralize name}}/create", { title: "Create {{pascalCase name}}" });
   }
 
   static async store(request: Request, response: Response) {
     try {
-      {{pascalCase (pluralize name)}}Validator.Create(request.body);
+      await {{pascalCase (pluralize name)}}Validator.Create(request.body);
       const data = await {{pascalCase name}}Service.Create(request.body);
 
-      return ApiResponse.success(response, data, "/{{pluralize name}}");
-    } catch (error: any) {
-      return ApiResponse.error(response, error);
-    }
-  }
-
-  static async edit(request: Request, response: Response) {
-    try {
-      const { id } = request.params;
-      const data = await {{pascalCase name}}Service.Show(id);
-
-      return response.render("{{pluralize name}}/edit", { data });
+      return ApiResponse.success(response, data);
     } catch (error: any) {
       return ApiResponse.error(response, error);
     }
@@ -54,11 +39,11 @@ export default class {{pascalCase name}}Controller {
 
   static async update(request: Request, response: Response) {
     try {
-      {{pascalCase (pluralize name)}}Validator.Update(request.body);
+      await {{pascalCase (pluralize name)}}Validator.Update(request.body);
       const { id } = request.params;
       const data = await {{pascalCase name}}Service.Update(id, request.body);
 
-      return ApiResponse.success(response, data, "/{{pluralize name}}");
+      return ApiResponse.success(response, data);
     } catch (error: any) {
       return ApiResponse.error(response, error);
     }
@@ -69,7 +54,7 @@ export default class {{pascalCase name}}Controller {
       const { id } = request.params;
       const data = await {{pascalCase name}}Service.Delete(id);
 
-      return ApiResponse.success(response, data, "/{{pluralize name}}");
+      return ApiResponse.success(response, data);
     } catch (error: any) {
       return ApiResponse.error(response, error);
     }

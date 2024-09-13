@@ -1,3 +1,4 @@
+import { AppError } from "core/helpers";
 import * as z from "zod";
 
 export const SchemaCreate = z.object({
@@ -6,11 +7,11 @@ export const SchemaCreate = z.object({
 
 export type SchemaType = z.infer<typeof SchemaCreate>;
 
-export function CreateValidation(data: SchemaType) {
+export async function CreateValidation(data: SchemaType) {
   try {
     SchemaCreate.parse(data);
   } catch (error) {
-    if (error instanceof z.ZodError) {
+    if (error instanceof z.ZodError || error instanceof AppError) {
       throw error;
     }
   }
