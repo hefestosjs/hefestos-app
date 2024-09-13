@@ -1,4 +1,4 @@
-import { describe, it, expect } from "@jest/globals";
+import { afterEach, describe, expect, it } from "@jest/globals";
 import { Supertest } from "core/modules";
 
 describe("{{ pascalCase name }} test", () => {

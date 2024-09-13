@@ -1,3 +1,4 @@
+import { AppError } from "core/helpers";
 import * as z from "zod";
 
 export const Schema = z.object({
@@ -6,11 +7,11 @@ export const Schema = z.object({
 
 export type SchemaType = z.infer<typeof Schema>;
 
-export function {{ pascalCase name }}Validation(data: SchemaType) {
+export async function {{ pascalCase name }}Validation(data: SchemaType) {
   try {
     Schema.parse(data);
   } catch (error) {
-    if (error instanceof z.ZodError) {
+    if (error instanceof z.ZodError || error instanceof AppError) {
       throw error;
     }
   }
