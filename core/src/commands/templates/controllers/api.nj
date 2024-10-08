@@ -5,14 +5,18 @@ import {{pascalCase (pluralize name)}}Validator from "app/validations/{{pascalCa
 
 export default class {{pascalCase name}}Controller {
   static async index(request: Request, response: Response) {
-    const { page, filter } = request.query as {
-      page?: number;
-      filter?: string;
-    };
-    
-    const data = await {{pascalCase name}}Service.List(page, filter);
+    try {
+      const { page, filter } = request.query as {
+        page?: number;
+        filter?: string;
+      };
+      
+      const data = await {{pascalCase name}}Service.List(page, filter);
 
-    return ApiResponse.pagination(response, data);
+      return ApiResponse.pagination(response, data);
+    } catch (error: any) {
+      return ApiResponse.error(response, error);
+    }
   }
 
   static async show(request: Request, response: Response) {
